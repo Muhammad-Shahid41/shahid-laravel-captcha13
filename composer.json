@@ -1,0 +1,41 @@
+{
+  "name": "shahid/laravel-captcha13",
+  "description": "A Laravel 13 compatible CAPTCHA package",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Shahid"
+    }
+  ],
+  "require": {
+    "php": "^8.3",
+    "laravel/framework": "^13.0",
+    "illuminate/support": "^13.0",
+    "illuminate/routing": "^13.0",
+    "illuminate/session": "^13.0",
+    "illuminate/validation": "^13.0",
+    "intervention/image": "^3.11"
+  },
+  "autoload": {
+    "psr-4": {
+      "Shahid\\Captcha\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Shahid\\Captcha\\CaptchaServiceProvider"
+      ],
+      "aliases": {
+        "Captcha": "Shahid\\Captcha\\Facades\\Captcha"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+
+}
+
+
+
