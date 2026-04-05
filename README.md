@@ -24,45 +24,38 @@ This package provides:
 #### Example 2
 ![Captcha Preview 2](./images-preview/preview2.png)
 
----
-
 ## Requirements
+PHP 8.3+
+Laravel 13+
+Installation
 
-- PHP 8.3+
-- Laravel 13+
+## Install the package via Composer:
 
----
-
-## Installation
-
-Install the package via Composer:
-
-```bash
 composer require shahid/laravel-captcha13
-Package Auto-Discovery
+
+## Package Auto-Discovery
 
 The package supports Laravel package auto-discovery.
 
 So after installation, you do not need to manually register the service provider or alias.
 
-Publish Configuration
+## Publish Configuration
 
-If you want to customize the package configuration, publish the config file:
+### If you want to customize the package configuration, publish the config file:
 
 php artisan vendor:publish --tag=captcha13-config
 
 This will publish:
 
 config/captcha.php
-Basic Usage in Blade
+
+## Basic Usage in Blade
 
 You can render the captcha image in any Blade view like this:
 
-{!! Captcha::img() !!}
+### {!! Captcha::img() !!}
 
-Important: Use {!! !!} instead of {{ }} because Captcha::img() returns raw HTML (<img> tag).
-
-Basic Form Example
+## Basic Form Example
 <form method="POST" action="{{ route('captcha.submit') }}">
     @csrf
 
@@ -76,11 +69,13 @@ Basic Form Example
 
     <button type="submit" style="margin-top: 10px;">Submit</button>
 </form>
-Validation Example (Controller)
-use Illuminate\Http\Request;
-use Shahid\Captcha\Facades\Captcha;
 
-public function submit(Request $request)
+## Validation Example (Controller)
+
+ use Illuminate\Http\Request;</br>
+ use Shahid\Captcha\Facades\Captcha;</br>
+
+ public function submit(Request $request)
 {
     $request->validate([
         'captcha' => ['required'],
@@ -94,10 +89,11 @@ public function submit(Request $request)
 
     return back()->with('success', 'Captcha verified successfully!');
 }
-Validation Example (Route Closure)
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use Shahid\Captcha\Facades\Captcha;
+
+## Validation Example (Route Closure)
+use Illuminate\Http\Request;</br>
+use Illuminate\Support\Facades\Route;</br>
+use Shahid\Captcha\Facades\Captcha;</br>
 
 Route::get('/captcha-test', function () {
     return view('captcha-test');
@@ -116,73 +112,68 @@ Route::post('/captcha-test', function (Request $request) {
 
     return back()->with('success', 'Captcha verified successfully!');
 })->name('captcha.test.submit');
-Facade Usage
 
-The package provides a facade:
+## Facade Usage
+
+### The package provides a facade:
 
 use Shahid\Captcha\Facades\Captcha;
-Available Methods
-Render captcha image HTML
+
+## Available Methods
+### Render captcha image HTML
 Captcha::img();
-Validate captcha input
+
+## Validate captcha input
 Captcha::validate($request->captcha);
-Configuration
+
+## Configuration
 
 After publishing the config file, you can customize the package using:
 
-config/captcha.php
+## config/captcha.php
 Default Configuration
+
 <?php
 
 return [
-    'length' => 6,
-    'width' => 200,
-    'height' => 60,
-    'background' => '#f9fafb',
-    'text_color' => '#374151',
-    'session_key' => 'captcha_code',
-    'route' => 'captcha/image',
-    'font' => null,
-];
-Configuration Options
-Option	Description
-length	Number of characters in the captcha
-width	Width of the captcha image
-height	Height of the captcha image
-background	Background color of the captcha image
-text_color	Default text color (fallback if custom per-character colors are not used)
-session_key	Session key used to store the captcha code
-route	Route path used to serve the captcha image
-font	Optional custom font path
-Notes
-The package uses session-based validation, so the captcha image route must work under the web middleware.
-A new captcha is generated whenever the captcha image is refreshed.
-The package appends a timestamp query parameter to the image URL to prevent browser caching.
-If a custom font is not provided, the package uses its internal default font automatically.
-Font Configuration
+    'length' => 6,</br>
+    'width' => 200,</br>
+    'height' => 60,</br>
+    'background' => '#f9fafb',</br>
+    'text_color' => '#374151',</br>
+    'session_key' => 'captcha_code',</br>
+    'route' => 'captcha/image',</br>
+    'font' => null,</br>
+];</br>
 
-The package uses a built-in default font automatically, so you do not need to configure a font path manually in most cases.
 
-If you want to use your own custom font, publish the config file:
+## Configuration Options
 
-php artisan vendor:publish --tag=captcha13-config
+| Option | Description |
+|--------|-------------|
+| `length` | Number of characters in the captcha |
+| `width` | Width of the captcha image |
+| `height` | Height of the captcha image |
+| `background` | Background color of the captcha image |
+| `text_color` | Default text color (fallback if custom per-character colors are not used) |
+| `session_key` | Session key used to store the captcha code |
+| `route` | Route path used to serve the captcha image |
+| `font` | Optional custom font path |
 
-Then update the font option in config/captcha.php:
+### Notes
 
-'font' => storage_path('fonts/custom-font.ttf'),
-Example custom font paths
-'font' => storage_path('fonts/DejaVuSans.ttf'),
-'font' => public_path('fonts/custom-font.ttf'),
-'font' => resource_path('fonts/custom-font.ttf'),
-Important
-The font file must be a valid .ttf font file.
-The path should be an absolute Laravel path helper (storage_path, public_path, resource_path, etc.).
-If font is set to null, the package will automatically use its built-in default font.
-Recommended Package Route
+- The package uses **session-based validation**, so the captcha image route must work under the `web` middleware.
+- A new captcha is generated whenever the captcha image is refreshed.
+- The package appends a timestamp query parameter to the image URL to prevent browser caching.
+- If a custom font is not provided, the package uses its internal default font automatically.
 
-If you want to understand how the package route works internally, it should use the web middleware because the package relies on sessions:
+## Recommended Package Route
 
+If you want to understand how the package route works internally, it should use the `web` middleware because the package relies on sessions:
+
+```php
 Route::middleware('web')->group(function () {
     Route::get('captcha/image', [CaptchaController::class, 'image'])
         ->name('captcha13.image');
 });
+```
