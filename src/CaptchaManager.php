@@ -70,7 +70,7 @@ class CaptchaManager
             });
         }
 
-        $fontPath = $this->config['font'] ?? __DIR__ . '/../resources/fonts/Roboto-Regular.ttf';
+        $fontPath = $this->config['font'] ?: __DIR__ . '/../resources/fonts/Roboto-Regular.ttf';
 
         if (!file_exists($fontPath)) {
     throw new \Exception("Captcha font file not found: " . $fontPath);
