@@ -30,9 +30,9 @@ Laravel 13+
 Installation
 
 ## Install the package via Composer:
-
+```bash
 composer require shahid/laravel-captcha13
-
+```
 ## Package Auto-Discovery
 
 The package supports Laravel package auto-discovery.
@@ -42,9 +42,9 @@ So after installation, you do not need to manually register the service provider
 ## Publish Configuration
 
 ### If you want to customize the package configuration, publish the config file:
-
+```bash
 php artisan vendor:publish --tag=captcha13-config
-
+```
 This will publish:
 
 config/captcha.php
@@ -52,8 +52,9 @@ config/captcha.php
 ## Basic Usage in Blade
 
 You can render the captcha image in any Blade view like this:
-
-### {!! Captcha::img() !!}
+```blade
+{!! Captcha::img() !!}
+```
 
 ## Basic Form Example
 <form method="POST" action="{{ route('captcha.submit') }}">
@@ -71,9 +72,9 @@ You can render the captcha image in any Blade view like this:
 </form>
 
 ## Validation Example (Controller)
-
- use Illuminate\Http\Request;</br>
- use Shahid\Captcha\Facades\Captcha;</br>
+```php
+ use Illuminate\Http\Request;
+ use Shahid\Captcha\Facades\Captcha;
 
  public function submit(Request $request)
 {
@@ -89,11 +90,13 @@ You can render the captcha image in any Blade view like this:
 
     return back()->with('success', 'Captcha verified successfully!');
 }
+```
 
 ## Validation Example (Route Closure)
-use Illuminate\Http\Request;</br>
-use Illuminate\Support\Facades\Route;</br>
-use Shahid\Captcha\Facades\Captcha;</br>
+```php
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Shahid\Captcha\Facades\Captcha;
 
 Route::get('/captcha-test', function () {
     return view('captcha-test');
@@ -112,20 +115,23 @@ Route::post('/captcha-test', function (Request $request) {
 
     return back()->with('success', 'Captcha verified successfully!');
 })->name('captcha.test.submit');
-
+```
 ## Facade Usage
 
 ### The package provides a facade:
-
+```php
 use Shahid\Captcha\Facades\Captcha;
-
+```
 ## Available Methods
 ### Render captcha image HTML
+```blade
 Captcha::img();
+```
 
 ## Validate captcha input
+```php
 Captcha::validate($request->captcha);
-
+```
 ## Configuration
 
 After publishing the config file, you can customize the package using:
@@ -136,14 +142,14 @@ Default Configuration
 <?php
 
 return [
-    'length' => 6,</br>
-    'width' => 200,</br>
-    'height' => 60,</br>
-    'background' => '#f9fafb',</br>
-    'text_color' => '#374151',</br>
-    'session_key' => 'captcha_code',</br>
-    'route' => 'captcha/image',</br>
-    'font' => null,</br>
+    'length' => 6,
+    'width' => 200,
+    'height' => 60,
+    'background' => '#f9fafb',
+    'text_color' => '#374151',
+    'session_key' => 'captcha_code',
+    'route' => 'captcha/image',
+    'font' => null,
 ];
 ```
 
@@ -160,9 +166,10 @@ return [
 ## Recommended Package Route
 
 If you want to understand how the package route works internally, it should use the `web` middleware because the package relies on sessions:</br>
-
+```php
 Route::middleware('web')->group(function () {
     Route::get('captcha/image', [CaptchaController::class, 'image'])
         ->name('captcha13.image');
 });
+```
 
