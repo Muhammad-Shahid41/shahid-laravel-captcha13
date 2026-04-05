@@ -71,10 +71,11 @@ You can render the captcha image in any Blade view like this:
 </form>
 
 ## Validation Example (Controller)
-### use Illuminate\Http\Request;
-### use Shahid\Captcha\Facades\Captcha;
 
-## public function submit(Request $request)
+ use Illuminate\Http\Request;</br>
+ use Shahid\Captcha\Facades\Captcha;</br>
+
+ public function submit(Request $request)
 {
     $request->validate([
         'captcha' => ['required'],
@@ -112,155 +113,6 @@ Route::post('/captcha-test', function (Request $request) {
     return back()->with('success', 'Captcha verified successfully!');
 })->name('captcha.test.submit');
 
-## Full Blade Test Example
-
-### Create a test Blade file like:
-
-resources/views/captcha-test.blade.php
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Captcha Test</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f3f4f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 420px;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-        }
-
-        h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #111827;
-        }
-
-        .captcha-box {
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .captcha-box img {
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            padding: 5px;
-            background: #fff;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 15px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #1d4ed8;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .success {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="card">
-        <h2>Captcha Package Test</h2>
-
-        @if (session('success'))
-            <div class="message success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if ($errors->has('captcha'))
-            <div class="message error">
-                {{ $errors->first('captcha') }}
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('captcha.test.submit') }}">
-            @csrf
-
-            <div class="captcha-box">
-                {!! Captcha::img() !!}
-            </div>
-
-            <input 
-                type="text" 
-                name="captcha" 
-                placeholder="Enter captcha"
-                value="{{ old('captcha') }}"
-            >
-
-            <button type="submit">Verify Captcha</button>
-        </form>
-    </div>
-
-</body>
-</html>
-
-## Refresh Captcha Example
-
-### You can refresh the captcha image without reloading the page:
-
-<div class="captcha-box">
-    {!! Captcha::img() !!}
-    <button type="button" onclick="refreshCaptcha()">Refresh Captcha</button>
-</div>
-
-<script>
-    function refreshCaptcha() {
-        const captchaImage = document.querySelector('.captcha-box img');
-        if (captchaImage) {
-            captchaImage.src = "{{ url('captcha/image') }}?t=" + new Date().getTime();
-        }
-    }
-</script>
-
 ## Facade Usage
 
 ### The package provides a facade:
@@ -295,35 +147,37 @@ return [
 ];</br>
 
 
-## Configuration Options
-### Option	Description
-length	Number of characters in the captcha
+## Configuration Options </br>
 
-width	Width of the captcha image
+### Option	Description </br>
+length	Number of characters in the captcha </br>
 
-height	Height of the captcha image
+width	Width of the captcha image </br>
 
-background	Background color of the captcha image
+height	Height of the captcha image </br>
 
-text_color	Default text color (fallback if custom per-character colors are not used)
+background	Background color of the captcha image</br>
 
-session_key	Session key used to store the captcha code
+text_color	Default text color (fallback if custom per-character colors are not used)</br>
 
-route	Route path used to serve the captcha image
+session_key	Session key used to store the captcha code</br>
+
+route	Route path used to serve the captcha image</br>
 
 font	Optional custom font path</br>
-## Notes
-The package uses session-based validation, so the captcha image route must work under the web middleware.
 
-A new captcha is generated whenever the captcha image is refreshed.
+## Notes</br>
+The package uses session-based validation, so the captcha image route must work under the web middleware.</br>
 
-The package appends a timestamp query parameter to the image URL to prevent browser caching.
+A new captcha is generated whenever the captcha image is refreshed.</br>
 
-If a custom font is not provided, the package should use its internal default font.
+The package appends a timestamp query parameter to the image URL to prevent browser caching.</br>
 
-## Recommended Package Route
+If a custom font is not provided, the package should use its internal default font.</br>
 
-If you want to understand how the package route works internally, it should use the web middleware because the package relies on sessions:
+## Recommended Package Route</br>
+
+If you want to understand how the package route works internally, it should use the web middleware because the package relies on sessions:</br>
 
 Route::middleware('web')->group(function () {
     Route::get('captcha/image', [CaptchaController::class, 'image'])
