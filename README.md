@@ -132,7 +132,7 @@ After publishing the config file, you can customize the package using:
 
 ## config/captcha.php
 Default Configuration
-
+```php
 <?php
 
 return [
@@ -144,7 +144,8 @@ return [
     'session_key' => 'captcha_code',</br>
     'route' => 'captcha/image',</br>
     'font' => null,</br>
-];</br>
+];
+```
 
 
 ## Configuration Options
