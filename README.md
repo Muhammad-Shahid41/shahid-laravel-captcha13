@@ -149,31 +149,19 @@ return [
 
 ## Configuration Options
 
-| Option | Description |
-|--------|-------------|
-| `length` | Number of characters in the captcha |
-| `width` | Width of the captcha image |
-| `height` | Height of the captcha image |
-| `background` | Background color of the captcha image |
-| `text_color` | Default text color (fallback if custom per-character colors are not used) |
-| `session_key` | Session key used to store the captcha code |
-| `route` | Route path used to serve the captcha image |
-| `font` | Optional custom font path |
-
 ### Notes
 
-- The package uses **session-based validation**, so the captcha image route must work under the `web` middleware.
-- A new captcha is generated whenever the captcha image is refreshed.
-- The package appends a timestamp query parameter to the image URL to prevent browser caching.
-- If a custom font is not provided, the package uses its internal default font automatically.
+- The package uses **session-based validation**, so the captcha image route must work under the `web` middleware.</br>
+- A new captcha is generated whenever the captcha image is refreshed.</br>
+- The package appends a timestamp query parameter to the image URL to prevent browser caching.</br>
+- If a custom font is not provided, the package uses its internal default font automatically.</br>
 
 ## Recommended Package Route
 
-If you want to understand how the package route works internally, it should use the `web` middleware because the package relies on sessions:
+If you want to understand how the package route works internally, it should use the `web` middleware because the package relies on sessions:</br>
 
-```php
 Route::middleware('web')->group(function () {
     Route::get('captcha/image', [CaptchaController::class, 'image'])
         ->name('captcha13.image');
 });
-```
+
