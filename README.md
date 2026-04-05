@@ -31,7 +31,7 @@ Installation
 
 ## Install the package via Composer:
 ```bash
-composer require shahid/laravel-captcha13
+composer require ms41/laravel-captcha13
 ```
 ## Package Auto-Discovery
 
