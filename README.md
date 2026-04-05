@@ -91,9 +91,9 @@ You can render the captcha image in any Blade view like this:
 }
 
 ## Validation Example (Route Closure)
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use Shahid\Captcha\Facades\Captcha;
+use Illuminate\Http\Request;</br>
+use Illuminate\Support\Facades\Route;</br>
+use Shahid\Captcha\Facades\Captcha;</br>
 
 Route::get('/captcha-test', function () {
     return view('captcha-test');
@@ -147,9 +147,9 @@ return [
 ];</br>
 
 
-## Configuration Options </br>
+## Configuration Options 
 
-### Option	Description </br>
+### Option	Description 
 length	Number of characters in the captcha </br>
 
 width	Width of the captcha image </br>
@@ -166,7 +166,7 @@ route	Route path used to serve the captcha image</br>
 
 font	Optional custom font path</br>
 
-## Notes</br>
+### Notes
 The package uses session-based validation, so the captcha image route must work under the web middleware.</br>
 
 A new captcha is generated whenever the captcha image is refreshed.</br>
@@ -175,7 +175,7 @@ The package appends a timestamp query parameter to the image URL to prevent brow
 
 If a custom font is not provided, the package should use its internal default font.</br>
 
-## Recommended Package Route</br>
+## Recommended Package Route
 
 If you want to understand how the package route works internally, it should use the web middleware because the package relies on sessions:</br>
 
