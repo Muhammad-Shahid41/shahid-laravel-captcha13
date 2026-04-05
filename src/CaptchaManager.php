@@ -72,6 +72,10 @@ class CaptchaManager
 
         $fontPath = $this->config['font'] ?? __DIR__ . '/../resources/fonts/Roboto-Regular.ttf';
 
+        if (!file_exists($fontPath)) {
+    throw new \Exception("Captcha font file not found: " . $fontPath);
+}
+
         $image->text($code, (int)($width / 4), (int)($height / 1.5), function ($font) use ($fontPath, $textColor) {
             $font->file($fontPath);
             $font->size(28);
